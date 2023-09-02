@@ -10,7 +10,7 @@ _Note: I have a Raspberry Pi 4 8 GB RAM with Raspberry Pi OS 64 Bit, but other c
 ### Installing the OS
 
 Use the [Raspberry PI OS Imager](https://www.raspberrypi.com/software/) for setting up your PI.
-Make sure to enable SSH access and WiFi.
+Make sure to enable SSH access and WiFi and use _raspberrypi.local_ as host name.
 
 ### Provisioning the Required Software
 
