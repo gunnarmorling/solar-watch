@@ -14,7 +14,7 @@ Make sure to enable SSH access and WiFi.
 
 ### Provisioning the Required Software
 
-Clone the project:
+Clone the project on some other machine (i.e. not the Pi):
 
 ```bash
 git clone git@github.com:gunnarmorling/solar-watch.git
@@ -24,10 +24,23 @@ cd solar-watch
 Then install the required software on the Pi using Ansible and the provided _playbook.yml_ file (adjust the _hosts_ file as needed):
 
 ```bash
-ansible-playbook -i hosts playbook.yml
+ansible-playbook -i ansible/hosts ansible/playbook.yml
 ```
 
 ## Initializing the Project
+
+SSH into the Pi:
+
+```bash
+ssh -i ~/.ssh/<your key> pi@raspberrypi.local
+```
+
+On the Pi, clone the project:
+
+```bash
+git clone https://github.com/gunnarmorling/solar-watch.git
+cd solar-watch
+```
 
 Create a Python virtual environment and install the required Python dependencies:
 
