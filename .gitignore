@@ -1,3 +1,4 @@
 .DS_Store
 .env
-influxdb-data
+influxdb-data/config
+influxdb-data/data

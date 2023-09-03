@@ -42,6 +42,12 @@ git clone https://github.com/gunnarmorling/solar-watch.git
 cd solar-watch
 ```
 
+Start InfluxDB and Grafana:
+
+```bash
+docker compose up -d
+```
+
 Create a Python virtual environment and install the required Python dependencies:
 
 ```bash
@@ -50,6 +56,49 @@ source .env/bin/activate
 pip install goodwe
 ```
 
-# License
+Change `INVERTER_ADDRESS` in _post-data.sh_ to the address of your inverter.
+
+Invoke _post-data.sh_ and verify data shows up in InfluxDB and Grafana (see below for endpoints).
+If it does, register crontab entries for your desired logging cadence:
+
+```bash
+crontab -e
+
+# E.g. like this for logging every 30 sec
+* * * * * /home/pi/projects/solar-watch/post-data.sh >> /tmp/solar-watch.log 2>&1
+* * * * * sleep 30 && /home/pi/projects/solar-watch/post-data.sh >> /tmp/solar-watch.log 2>&1
+```
+
+## Web Interfaces
+
+Use username "admin" and password "adminadmin" for authenticating with both InfluxDB and Grafana.
+These are the endpoints:
+
+* InfluxDB: http://raspberrypi.local:8086/
+* Grafana: http://raspberrypi.local:3000/
+
+## Useful Commands
+
+Exporting and importing data from/into InfluxDB (run from within the Influx container via `docker exec --tty -i solar-watch-influxdb-1 bash`):
+
+```bash
+influxd inspect export-lp \
+  --bucket-id 7f830c08c8b564f3 \
+  --engine-path /var/lib/influxdb2/engine \
+  --output-path /tmp/solar-data/export.lp \
+  --compress
+```
+
+```bash
+influx write \
+  -b solar-data \
+  -o solar-watch \
+  -p ns \
+  --format=lp \
+  -f /tmp/solar-data/export-lp \
+  --compression=gzip
+```
+
+## License
 
 This code base is available ander the Apache License, version 2.

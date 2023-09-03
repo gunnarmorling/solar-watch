@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   influxdb:
+    restart: always
     image: influxdb:2.7.0
     ports:
       - 8086:8086
@@ -19,6 +20,7 @@ services:
       - my-network
 
   grafana:
+    restart: always
     image: grafana/grafana:latest
     ports:
       - 3000:3000
