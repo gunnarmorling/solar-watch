@@ -79,7 +79,14 @@ These are the endpoints:
 
 ## Useful Commands
 
-Exporting and importing data from/into InfluxDB (run from within the Influx container via `docker exec --tty -i solar-watch-influxdb-1 bash`):
+* Updating all packages:
+
+```bash
+sudo apt update
+sudo apt full-upgrade
+```
+
+* Exporting and importing data from/into InfluxDB (run from within the Influx container via `docker exec --tty -i solar-watch-influxdb-1 bash`):
 
 ```bash
 influxd inspect export-lp \

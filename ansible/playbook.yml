@@ -1,0 +1,62 @@
+- hosts: all
+  tasks:
+  - name: Run the equivalent of "apt-get update" as a separate step
+    become: true
+    become_user: root
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+  - name: Update all packages to the latest version
+    become: true
+    become_user: root
+    apt:
+      upgrade: dist
+  - name: Install common packages
+    become: true
+    become_user: root
+    apt:
+      pkg:
+        - htop
+        - httpie
+        - git
+        - python3-venv
+        - tree
+      state: latest
+      update_cache: true
+ 
+  - name: Add Docker GPG key
+    become: true
+    become_user: root
+    apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      state: present
+
+  - name: Add Docker repository
+    become: true
+    become_user: root
+    apt_repository:
+      repo: deb [arch=arm64] https://download.docker.com/linux/debian bullseye stable
+      state: present
+
+  - name: Install Docker Engine
+    become: true
+    become_user: root
+    apt:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+
+  - name: Add user to docker group
+    become: true
+    become_user: root
+    user:
+      name: pi
+      groups: docker
+
+  - name: Start Docker service
+    become: true
+    become_user: root
+    service:
+      name: docker
+      state: started
