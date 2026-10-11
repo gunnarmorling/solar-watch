@@ -65,9 +65,11 @@ If it does, register crontab entries for your desired logging cadence:
 crontab -e
 
 # E.g. like this for logging every 30 sec
-* * * * * /home/pi/projects/solar-watch/post-data.sh >> /tmp/solar-watch.log 2>&1
-* * * * * sleep 30 && /home/pi/projects/solar-watch/post-data.sh >> /tmp/solar-watch.log 2>&1
+* * * * * systemd-cat -t solar-watch /home/pi/projects/solar-watch/post-data.sh
+* * * * * sleep 30 && systemd-cat -t solar-watch /home/pi/projects/solar-watch/post-data.sh
 ```
+
+The script output goes to the systemd journal; view it with `journalctl -t solar-watch`.
 
 ## Web Interfaces
 
