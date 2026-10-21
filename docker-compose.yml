@@ -7,6 +7,7 @@ services:
     volumes:
       - $PWD/influxdb-data/data:/var/lib/influxdb2
       - $PWD/influxdb-data/config:/etc/influxdb2
+      - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
@@ -28,6 +29,7 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning
       - ./grafana/custom.ini:/etc/grafana/grafana.ini
       - grafana-data:/var/lib/grafana
+      - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       - my-network
 
